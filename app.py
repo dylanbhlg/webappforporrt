@@ -36,25 +36,6 @@ producer = Producer(kafka_config)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        # Get data from the form
-        data = {
-            'ID': request.form['ID'],
-            'age': int(request.form['age']),
-            'wage': float(request.form['wage']),
-            'gender': request.form['gender'],
-            'previousSeller': request.form['previousSeller']
-        }
-
-        try:
-            TOPIC = "CleanSlateCustomerData"
-            producer.produce(topic=TOPIC,key=string_serializer(str(data["ID"].encode())),value=avro_serializer(data,SerializationContext(TOPIC,MessageField.VALUE,),),)
-
-        except Exception:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            return f"{exc_type} | {exc_tb.tb_lineno} | {exc_obj}".replace(">", "&gt;").replace("<", "&lt;")
-        else:
-            return "Message sent!"
-            
     return render_template('index.html')
 
 if __name__ == '__main__':
