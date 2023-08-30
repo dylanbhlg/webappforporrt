@@ -27,6 +27,12 @@ on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
+        inputs:
+          port_payload:
+            required: true
+            description: Port's payload, including details for who triggered the action and
+              general context (blueprint, run id, etc...)
+            type: string
 
 permissions:
   contents: read
